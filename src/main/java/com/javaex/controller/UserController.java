@@ -44,7 +44,7 @@ public class UserController {
 	public String loginForm() {
 		System.out.println("/user/loginForm");
 
-		return "user/loginForm";
+		return "user/loginForm"; 
 	}
 
 	// 로그인
@@ -58,7 +58,7 @@ public class UserController {
 		if (authUser == null) {
 			System.out.println("로그인실패");
 
-			return "redirect:/user/loginForm?result=fail";
+			return "redirect:/user/loginform?result=fail";
 		} else {
 			System.out.println("로그인성공");
 			session.setAttribute("authUser", authUser);
