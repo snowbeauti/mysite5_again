@@ -64,7 +64,7 @@ public class UserController {
 			session.setAttribute("authUser", authUser);
 
 			
-			return "main/index";
+			return "redirect:/";
 		}
 
 	}
@@ -77,7 +77,7 @@ public class UserController {
 		session.removeAttribute("authUser");
 		session.invalidate();
 
-		return "/main/index";
+		return "redirect:/";
 	}
 	
 	//회원정보수정폼
