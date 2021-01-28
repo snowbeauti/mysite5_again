@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.javaex.dao.UserDao;
+import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -19,6 +20,9 @@ public class UserController {
 	// 필드
 	@Autowired
 	private UserDao udao;
+	
+	@Autowired
+	private UserService uservice;
 
 	// 회원가입폼
 	@RequestMapping(value = "/joinform", method = { RequestMethod.GET, RequestMethod.POST })
@@ -34,7 +38,7 @@ public class UserController {
 		System.out.println("/user/join");
 		System.out.println("controller.uvo" + uvo.toString());
 
-		udao.insert(uvo);
+		int count = uservice.join(uvo);
 
 		return "user/joinOk";
 	}
@@ -53,8 +57,8 @@ public class UserController {
 		System.out.println("/user/login");
 		System.out.println("controller.uvo" + uvo.toString());
 
-		UserVo authUser = udao.selectUser(uvo);
-
+		UserVo authUser = uservice.login(uvo);
+		
 		if (authUser == null) {
 			System.out.println("로그인실패");
 
@@ -63,7 +67,6 @@ public class UserController {
 			System.out.println("로그인성공");
 			session.setAttribute("authUser", authUser);
 
-			
 			return "redirect:/";
 		}
 
@@ -86,13 +89,14 @@ public class UserController {
 		System.out.println("mform");
 		
 		//세션에 있는 no가져오기
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int no = ((UserVo) session.getAttribute("authUser")).getNo();
 		
-		System.out.println(authUser);
 		
 		//회원정보가져오기
-		model.addAttribute("uservo", udao.select(authUser.getNo()));
+		UserVo uvo = uservice.mform(no);
 		
+		//jsp에 데이터 보내기
+		model.addAttribute("uvo", uvo);
 		
 		return "user/modifyForm";
 	}
@@ -102,11 +106,20 @@ public class UserController {
 	public String modify(@ModelAttribute UserVo uvo, HttpSession session) {
 		System.out.println("modify");
 			
-			System.out.println(uvo);	
+			//세션에 사용자정보 가져오기
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
 			
-			udao.update(uvo);
+			//세션에서 no값 가져오기
+			int no = authUser.getNo();
 			
-			session.setAttribute("authUser", uvo);
+			//vo에 no정보 추가
+			uvo.setNo(no);
+			
+			//회원정보 수정
+			int count = uservice.modify(uvo);
+			
+			//세션에 이름변경
+			authUser.setName(uvo.getName());			
 			
 			return "redirect:/";
 	}

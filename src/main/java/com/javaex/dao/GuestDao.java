@@ -1,7 +1,7 @@
 package com.javaex.dao;
 
-
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,35 +17,31 @@ public class GuestDao {
 	
 	//조회
 	public List<GuestVo> GList() {
+		System.out.println("GList");
 		
-		List<GuestVo> guestList = sqlSession.selectList("guest.selectList");
-		return guestList;
+		return sqlSession.selectList("guest.selectList");
 	}
 	
 	//등록
 	public int insert(GuestVo gvo) {
 		
-		System.out.println(gvo.toString());
-		int count = sqlSession.insert("guest.insert", gvo);
+		System.out.println("add" + gvo.toString());
 		
-		return count;
+		return sqlSession.insert("guest.insert", gvo);
 	}
 	
 	//1명 데이터 가져오기
 	public GuestVo getGuest(int no){
-		System.out.println("dao: getGuest()" + no);
+		System.out.println("getGuest" + no);
 		
-		GuestVo gvo = sqlSession.selectOne("guest.selectOne", no);
-
-		return gvo;
+		return sqlSession.selectOne("guest.selectOne", no);
 	}
 	
 	//삭제
 	public int delete(GuestVo gvo) {
-		System.out.println("delete");
-		int count = sqlSession.delete("guest.delete", gvo);
+		System.out.println("delete" + gvo);
 		
-		return count;
+		return sqlSession.delete("guest.delete", gvo);
 		
 	}
 

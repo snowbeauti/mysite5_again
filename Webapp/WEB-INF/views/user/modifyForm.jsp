@@ -48,7 +48,7 @@
 						<!-- 아이디 -->
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> <span
-								class="text-large bold">${uservo.id}</span>
+								class="text-large bold">${uvo.id}</span>
 						</div>
 
 						<!-- 비밀번호 -->
@@ -71,7 +71,7 @@
 
 
 							<c:choose>
-								<c:when test="${uservo.gender == 'male'}">
+								<c:when test="${uvo.gender == 'male'}">
 									<label for="rdo-male">남</label>
 									<input type="radio" id="rdo-male" name="gender" value="male"
 										checked="checked">
@@ -79,7 +79,7 @@
 									<input type="radio" id="rdo-female" name="gender"
 										value="female">
 								</c:when>
-								<c:when test="${uservo.gender == 'female'}">
+								<c:when test="${uvo.gender == 'female'}">
 									<label for="rdo-male">남</label>
 									<input type="radio" id="rdo-male" name="gender" value="male">
 									<label for="rdo-female">여</label>
