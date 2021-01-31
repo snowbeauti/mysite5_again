@@ -22,7 +22,7 @@
 		<div id="aside">
 			<h2>방명록</h2>
 			<ul>
-				<li><a href="${pageContext.request.contextPath}/gbook/addlist">일반방명록</a></li>
+				<li><a href="${pageContext.request.contextPath}/gbook">일반방명록</a></li>
 				<li>ajax방명록</li>
 			</ul>
 		</div>
@@ -57,7 +57,7 @@
 							<td><input type="password" name="password"></td>
 							<input type="hidden" name="no" value="${param.no}">
 							<td class="text-left"><button type="submit">삭제</button></td>
-							<td><a href="${pageContext.request.contextPath}/gbook/addlist">[메인으로 돌아가기]</a></td>
+							<td><a href="${pageContext.request.contextPath}/gbook">[메인으로 돌아가기]</a></td>
 						</tr>
 
 					</table>

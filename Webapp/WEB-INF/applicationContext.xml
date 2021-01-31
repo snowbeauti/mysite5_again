@@ -18,8 +18,7 @@
 
 	<context:annotation-config />
 
-	<context:component-scan
-		base-package="com.javaex">
+	<context:component-scan base-package="com.javaex">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation"
@@ -29,10 +28,8 @@
 	</context:component-scan>
 
 	<!-- oracle datasource -->
-	<bean id="oracleDatasource"
-		class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
-		<property name="URL"
-			value="jdbc:oracle:thin:@localhost:1521:xe" />
+	<bean id="oracleDatasource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+		<property name="URL" value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="user" value="webdb" />
 		<property name="password" value="webdb" />
 		<property name="connectionCachingEnabled" value="true" />
@@ -41,16 +38,13 @@
 
 
 	<!-- MyBatis SqlSessionFactoryBean 설정 -->
-	<bean id="sqlSessionFactory"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="oracleDatasource" />
-		<property name="configLocation"
-			value="classpath:mybatis/configuration.xml" />
+		<property name="configLocation" value="classpath:mybatis/configuration.xml" />
 	</bean>
 
 	<!-- MyBatis SqlSessionTemplate 설정 -->
-	<bean id="sqlSession"
-		class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 

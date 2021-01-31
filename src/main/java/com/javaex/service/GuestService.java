@@ -13,34 +13,37 @@ public class GuestService {
 
 	@Autowired
 	private GuestDao gdao;
-	
-	
-	//리스트
-	public List<GuestVo> GList(){
+
+	// 리스트
+	public List<GuestVo> guestList() {
 		System.out.println("gservice GList");
-		
-		return gdao.GList();
+
+		return gdao.guestList();
 	}
-	
-	//등록
+
+	// 등록
 	public int add(GuestVo gvo) {
 		System.out.println("gservice add");
-		
+
 		return gdao.insert(gvo);
 	}
-	
-	//삭제 회원선택
-	public GuestVo getguest(int no) {
+
+	// 삭제
+	public String delete(GuestVo gvo) {
 		System.out.println("gservice getguest");
+		int no = gvo.getNo();
+
+		GuestVo guestvo = gdao.getGuest(no);
+		System.out.println("gvo" + gvo.getPassword() + ", guestvo" + guestvo.getPassword());
 		
-		return gdao.getGuest(no);
+		if (gvo.getPassword().equals(guestvo.getPassword())) {
+			System.out.println("gservice delete");
+			gdao.delete(guestvo.getNo());
+			return "success";
+		} else {
+			System.out.println("delete fail");
+			return "fail";
+		}
 	}
-	
-	//삭제
-	public int delete(GuestVo gvo) {
-		System.out.println("gservice delete");
-		
-		return gdao.delete(gvo);
-	}
-	
+
 }

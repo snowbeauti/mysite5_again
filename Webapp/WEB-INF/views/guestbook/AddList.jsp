@@ -85,7 +85,7 @@
 							<col style="width: 10%;">
 						</colgroup>
 						<tr>
-							<td>${gvo.no}></td>
+							<td>${gvo.no}</td>
 							<td>${gvo.name}</td>
 							<td>${gvo.reg_date}</td>
 							<td><a href="${pageContext.request.contextPath}/gbook/dform?no=${gvo.no}">삭제</a></td>

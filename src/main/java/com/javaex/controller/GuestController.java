@@ -8,29 +8,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javaex.dao.GuestDao;
 import com.javaex.service.GuestService;
 import com.javaex.vo.GuestVo;
 
 @Controller
 @RequestMapping(value = "/gbook")
 public class GuestController {
-
-	// 필드
-	@Autowired
-	private GuestDao gdao;
 	
 	@Autowired
 	private GuestService gservice;
 
 	// 리스트
-	@RequestMapping(value = "/addlist", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.POST })
 	public String addlist(Model model) {
-		System.out.println("/gbook/addlist");
+		System.out.println("/gbook");
 
-		List<GuestVo> gList = gservice.GList();
+		List<GuestVo> gList = gservice.guestList();
 		System.out.println(gList.toString());
 		
 		model.addAttribute("gList", gList);
@@ -43,9 +37,9 @@ public class GuestController {
 	public String add(@ModelAttribute GuestVo gvo) {
 		System.out.println("/gbook/add");
 
-		int count = gservice.add(gvo);
+		gservice.add(gvo);
 
-		return "redirect:/gbook/addlist";
+		return "redirect:/gbook";
 	}
 	
 	
@@ -59,21 +53,24 @@ public class GuestController {
 	
 	// 삭제
 	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String delete(@RequestParam("no")int no, 
-						 @RequestParam("password") String password) {
+	public String delete(@ModelAttribute GuestVo gvo) {
 		System.out.println("/gbook/delete");
-		GuestVo gvo = gservice.getguest(no);
-
-		if (gvo.getPassword().equals(password)) {
-			System.out.println(gvo + "삭제");
-
-			gservice.delete(gvo);
+		
+		String result = gservice.delete(gvo);
+		
+		//System.out.println("service delete return: " + gservice.delete(gvo));
+	    System.out.println("service delete return: " + result);
+		
+		
+		if (result.equals("success")) {
+			System.out.println("삭제완료");
+			return "redirect:/gbook";
 
 		} else {
-			return "redirect:/gbook/dform?no=" + no + "&result=fail";
+			System.out.println("삭제실패");
+			return "redirect:/gbook/dform?no=" + gvo.getNo() + "&result=fail";
 		}
 
-		return "redirect:/gbook/addlist";
 	}
 
 }
