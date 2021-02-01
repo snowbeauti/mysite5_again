@@ -36,7 +36,7 @@
 					<ul>
 						<li>홈</li>
 						<li>게시판</li>
-						<li class="last">일반게시판</li>
+						<li class="last">댓글게시판</li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -45,7 +45,7 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="${pageContext.request.contextPath}/board/search" method="get">
+					<form action="${pageContext.request.contextPath}/rboard/search" method="get">
 						<div class="form-group text-right">
 							<input type="text" name="word">
 							<button type="submit" id=btn_search>검색</button>
@@ -65,17 +65,21 @@
 								</tr>
 							</thead>
 
-							<c:forEach items="${bList}" var="bvo" varStatus="status">
+							<c:forEach items="${rList}" var="rvo" varStatus="status">
 								<tbody>
 									<tr>
-										<td>${status.count}<input type="hidden" name="no" value="${bvo.no}"></td>
+										<td>${status.count}<input type="hidden" name="no" value="${rvo.no}"></td>
 											
-										<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${bvo.no}">${bvo.title}</a></td>
-										<td>${bvo.name}</td>
-										<td>${bvo.hit}</td>
-										<td>${bvo.reg_date}</td>
+										<td class="text-left"><a href="${pageContext.request.contextPath}/rboard/read?no=${rvo.no}">${rvo.title}</a></td>
+										<td>${rvo.name}</td>
+										<td>${rvo.hit}</td>
+										<td>${rvo.reg_date}</td>
 										
-										<td><c:if test="${authUser.no == bvo.user_no}"><a href="${pageContext.request.contextPath}/board/delete?no=${bvo.no}">[삭제]</a></c:if></td>
+										<td>${rvo.group_no} ${rvo.order_no} ${rvo.depth}
+											<c:if test="${authUser.no == rvo.user_no}">
+												<a href="${pageContext.request.contextPath}/rboard/delete?no=${rvo.no}">[삭제]</a>
+											</c:if>
+										</td>
 										
 									</tr>
 								</tbody>
@@ -103,7 +107,7 @@
 						<div class="clear"></div>
 					</div>
 					<c:if test="${authUser.no != null}">
-					<a id="btn_write" href="${pageContext.request.contextPath}/board/writeform">글쓰기</a>
+					<a id="btn_write" href="${pageContext.request.contextPath}/rboard/writeform">글쓰기</a>
 					</c:if>
 
 				</div>

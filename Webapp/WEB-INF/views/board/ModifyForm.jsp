@@ -22,7 +22,7 @@
 			<h2>게시판</h2>
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/board">일반게시판</a></li>
-				<li><a href="">댓글게시판</a></li>
+				<li><a href="${pageContext.request.contextPath}/rboard">댓글게시판</a></li>
 			</ul>
 		</div>
 		<!-- //aside -->
@@ -54,7 +54,7 @@
 
 						<!-- 조회수 -->
 						<div class="form-group">
-							<span class="form-text">조회수</span> <span class="form-value">123</span>
+							<span class="form-text">조회수</span> <span class="form-value">${bvo.hit}</span>
 						</div>
 
 						<!-- 작성일 -->

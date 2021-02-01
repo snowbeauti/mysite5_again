@@ -21,17 +21,15 @@ public class BoardService {
 		return bdao.boardList();
 	}
 	
-	//게시글 가져오기
+	//게시글 가져오기 + 조회수
 	public BoardVo read(int no) {
-		System.out.println("bservice read");	
+		System.out.println("bservice read");
+		
+		bdao.updateHit(no);		
 		return bdao.selectOne(no);
+				
 	}
-	
-	//조회수
-	public int hit(int no) {
-		System.out.println("bservice hit");
-		return bdao.updateHit(no);
-	}
+
 	
 	//게시글 수정
 	public int modify(BoardVo bvo) {

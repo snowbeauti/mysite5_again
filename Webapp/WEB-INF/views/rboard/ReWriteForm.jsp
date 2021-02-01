@@ -36,7 +36,7 @@
 					<ul>
 						<li>홈</li>
 						<li>게시판</li>
-						<li class="last">일반게시판</li>
+						<li class="last">댓글게시판</li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -45,12 +45,12 @@
 
 			<div id="board">
 				<div id="writeForm">
-					<form action="write" method="get">
+					<form action="rewrite" method="get">
 					
 						<!-- 제목 -->
 						<div class="form-group">
 							<label class="form-text" for="txt-title">제목</label>
-							<input type="text" id="txt-title" name="title" value="" placeholder="제목을 입력해 주세요">
+							<input type="text" id="txt-title" name="title" value="ㄴ" placeholder="제목을 입력해 주세요">
 						</div>
 					
 						<!-- 내용 -->
@@ -58,8 +58,11 @@
 							<textarea id="txt-content" name="content"></textarea>
 						</div>
 						
-						<a id="btn_cancel" href="${pageContext.request.contextPath}/board">취소</a>
+						<a id="btn_cancel" href="${pageContext.request.contextPath}/rboard">취소</a>
 						<button id="btn_add" type="submit" >등록</button>
+						<input type="hidden" name="group_no" value="${rvo.group_no}">
+						<input type="hidden" name="order_no" value="${rvo.order_no}">
+						<input type="hidden" name="depth" value="${rvo.depth}">
 	
 						
 					</form>

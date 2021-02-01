@@ -39,8 +39,7 @@ public class BoardController {
 	public String read(@ModelAttribute BoardVo boardvo, Model model) {
 		System.out.println("/board/read");
 
-		bservice.hit(boardvo.getNo());		
-		BoardVo bvo = bservice.read(boardvo.getNo());
+		BoardVo bvo = bservice.read(boardvo.getNo());	
 		System.out.println("read 보내기" + boardvo.getNo());
 	
 		model.addAttribute("bvo", bvo);
@@ -55,6 +54,7 @@ public class BoardController {
 		
 		BoardVo bvo = bservice.read(no);
 		model.addAttribute("bvo", bvo);
+		System.out.println(bvo); 
 		
 		return "board/ModifyForm";
 	}

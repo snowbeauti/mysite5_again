@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rboard">
+
+	<!-- 리스트 전체 가져오기 -->
+	<select id="selectList" resultType="com.javaex.vo.RboardVo">
+		<![CDATA[
+			SELECT rboard.no,
+                   rboard.user_no,
+                   rboard.title,
+                   rboard.content,
+                   rboard.hit,
+                   rboard.reg_date,
+                   rboard.group_no,
+                   rboard.order_no,
+                   rboard.depth,
+                   users.id,
+                   users.name
+            FROM rboard, users
+            where rboard.user_no = users.no
+            order by rboard.group_no desc, 
+                  rboard.order_no asc,
+                  rboard.depth asc
+		]]>
+	</select>
+	
+	
+	<!-- 게시글 1개 가져오기 -->
+	<select id="selectOne" parameterType="int" resultType="com.javaex.vo.RboardVo">
+		<![CDATA[
+			SELECT rboard.no,
+                   rboard.user_no,
+                   rboard.title,
+                   rboard.content,
+                   rboard.hit,
+                   rboard.reg_date,
+                   rboard.group_no,
+                   rboard.order_no,
+                   rboard.depth,
+                   users.id,
+                   users.name
+	  	 FROM rboard, users
+         where rboard.user_no = users.no
+	   	 and rboard.no = #{no}
+		]]>
+	</select>
+	
+		<!-- 조회수 -->
+	<update id="updateHit" parameterType="int">
+		<![CDATA[
+			update rboard set hit = hit+1
+			WHERE no = #{no}
+		]]>
+	</update>
+	
+		<!-- 게시글 저장 -->
+	<insert id="insert" parameterType="com.javaex.vo.RboardVo">	
+		<![CDATA[
+			insert into rboard
+			values(seq_rboard_no.nextval,
+				   #{user_no},	 
+				   #{title}, 
+				   #{content}, 
+				   0, 
+				   sysdate, 
+				   seq_group_no.nextval, 
+				   1,
+				   0)
+		]]>
+	</insert>
+
+
+<!-- 게시글 수정 -->
+	<update id="update" parameterType="com.javaex.vo.RboardVo">
+		<![CDATA[
+			UPDATE rboard
+			set title = #{title},
+			    content = #{content} 
+			where no = #{no}
+		]]>
+	</update>
+	
+<!-- 댓글여부확인 -->
+	<select id="deletefillter" parameterType="com.javaex.vo.RboardVo" resultType="com.javaex.vo.RboardVo">
+		<![CDATA[
+            SELECT no,
+                   user_no,
+                   title,
+                   content,
+                   hit,
+                   reg_date,
+                   group_no,
+                   order_no,
+                   depth
+           FROM rboard
+           where group_no = #{group_no}
+           and order_no >= #{order_no}
+           and depth > #{depth}
+        ]]>
+	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="com.javaex.vo.RboardVo">
+		<![CDATA[
+			delete from rboard
+			where no = #{no}
+		]]>
+	</delete>
+	
+	<!-- 게시글 삭제 수정 -->
+	<update id="deleteupdate" parameterType="com.javaex.vo.RboardVo">
+		<![CDATA[
+			UPDATE rboard
+			set user_no = ${user_no},
+    	   		title = ${title},
+				content = ${content}
+			where no = ${no}
+		]]>
+	</update>
+		
+<!-- 댓글 저장 -->
+	<insert id="reinsert" parameterType="com.javaex.vo.RboardVo">	
+		<![CDATA[
+			insert into rboard
+			values(seq_rboard_no.nextval,
+				   #{user_no},	 
+				   #{title}, 
+				   #{content}, 
+				   0, 
+				   sysdate, 
+				   #{group_no}, 
+				   #{order_no}+1,
+				   #{depth}+1)
+		]]>
+	</insert>
+	
+	<!-- 기존댓글 업데이트 -->
+		<update id="reupdate" parameterType="com.javaex.vo.RboardVo">
+		<![CDATA[
+			update rboard set order_no = order_no +1
+   			where group_no = #{group_no}
+    		and order_no >= #{order_no}
+    		and order_no >1
+         ]]>
+	</update>
+
+</mapper>

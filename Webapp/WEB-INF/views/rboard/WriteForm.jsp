@@ -36,7 +36,7 @@
 					<ul>
 						<li>홈</li>
 						<li>게시판</li>
-						<li class="last">일반게시판</li>
+						<li class="last">댓글게시판</li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -58,7 +58,7 @@
 							<textarea id="txt-content" name="content"></textarea>
 						</div>
 						
-						<a id="btn_cancel" href="${pageContext.request.contextPath}/board">취소</a>
+						<a id="btn_cancel" href="${pageContext.request.contextPath}/rboard">취소</a>
 						<button id="btn_add" type="submit" >등록</button>
 	
 						
