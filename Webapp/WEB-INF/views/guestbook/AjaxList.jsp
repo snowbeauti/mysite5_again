@@ -242,6 +242,8 @@
 			}
 		});
 	});
+	
+	
 	//방명록 글 정보 + html 조합하여 화면에 출력
 	function render(guestVo, updown) {
 		var str = "";

@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gallery">
 	
-	
+
+		
 	<!--리스트 가져오기-->
-	<select id="selectList" resultType="com.javaex.vo.GalleryVo">
+	<select id="selectOne" resultType="com.javaex.vo.GalleryVo">
 		<![CDATA[
 			SELECT g.no,
 			       g.user_no,
@@ -17,9 +18,67 @@
 			       u.name
 			FROM gallery g, users u
 			where g.user_no=u.no
-			order by no desc
+			and g.no = #{no}
 			]]>
 	</select>
+	
+	<!-- 글가져오기 검색어 -->
+	<select id="selectList" parameterType="String" resultType="com.javaex.vo.GalleryVo">
+		<![CDATA[
+			select r.rnum,
+			       r.no,
+			       r.user_no,
+			       r.content,
+				   r.filePath,
+			       r.orgName,
+			       r.saveName,
+			       r.fileSize,
+			       r.users_no,
+			       r.name
+			from (select rownum rnum,
+						 o.no,
+					     o.user_no,
+					     o.content,
+					     o.filePath,
+					     o.orgName,
+					     o.saveName,
+					     o.fileSize,
+					     o.users_no,
+					     o.name
+				   from (SELECT g.no,
+								g.user_no,
+								g.content,
+								g.filepath filePath,
+								g.orgname orgName,
+								g.savename saveName,
+								g.filesize fileSize,
+								u.no users_no,
+								u.name
+						 FROM gallery g, users u
+					     where g.user_no=u.no
+				 ]]>
+	   		 <if test="value != null and value != ''">
+			            and name like '%' || #{keyword} || '%'
+			</if>
+        <![CDATA[
+			           order by no desc) o) r
+			where r.rnum >= #{startRNum}
+			and r.rnum <= #{endRNum}
+		]]>
+	</select>
+	
+		<!-- 전체글개수 가져오기 -->
+	<select id="selectTotalCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(*)
+			FROM gallery g, users u
+			where g.user_no=u.no
+			 ]]>
+	   		 <if test="value != null and value != ''">
+			            and name like '%' || #{keyword} || '%'
+			</if>
+	</select>
+	
 		
 	<!-- 사진업로드 -->
 	<insert id="insert" parameterType="com.javaex.vo.GalleryVo">

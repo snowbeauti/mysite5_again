@@ -21,6 +21,7 @@ public class ApiGuestbookController {
 	private GuestService gservice;
 	
 	//전체리스트 가져오기
+	@ResponseBody
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public List<GuestVo> list() {
 		System.out.println("[ApiGuestbookController] /list");

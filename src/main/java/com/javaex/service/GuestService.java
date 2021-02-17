@@ -55,14 +55,12 @@ public class GuestService {
 
 	//ajax 글 저장
 	public GuestVo writeResultVo(GuestVo gvo) {
+		
 		//글저장
 		gdao.insertSelectkey(gvo);
 		
-		//no값을 알 수 있다.
-		int no  = gvo.getNo();
-		
 		//글 1개 조회
-		return gdao.selectOne(no);
+		return gdao.selectOne(gvo.getNo());
 		
 	}
 }
